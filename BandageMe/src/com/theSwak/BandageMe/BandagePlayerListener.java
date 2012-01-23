@@ -13,7 +13,8 @@ public class BandagePlayerListener extends PlayerListener {
 	public static BandageMe plugin; // reference to plug-in
 
 	private static Material bandageMaterial = Material.STRING; // material to use for bandage
-	private static int bandageMatUsage = 4; // amount of material to use
+	private static int bandageMatUsage = 4; // amount of material per use
+	private static int healAmount = 1; // amount to heal per use
 
 	public BandagePlayerListener(BandageMe instance) { // CONSTRUCTOR
 		plugin = instance;
@@ -30,12 +31,17 @@ public class BandagePlayerListener extends PlayerListener {
 			if (player.getItemInHand().getAmount() >= bandageItemUse.getAmount()) { // if player has enough item in hand 
 				Entity targetCreature = event.getRightClicked();
 
-				player.sendMessage("Attempting to heal " + targetCreature.toString()); // tell the player the target they are healing
-				removeBandage(player, bandageItemUse); // remove bandage from player
-
-				//
+				// if the player's target exists and is a living entity
 				if (targetCreature != null && targetCreature instanceof LivingEntity) {
-					player.sendMessage("creature ok");
+					LivingEntity livingTarget = (LivingEntity) targetCreature; // reference to living entity target
+					if (livingTarget.getHealth() < livingTarget.getMaxHealth()) { // if target isn't fully healed
+						player.sendMessage("You are healing " + targetCreature.toString() + ".");
+						removeBandage(player, bandageItemUse); // remove bandage from player
+						livingTarget.setHealth(livingTarget.getHealth() + healAmount); // add heal amount
+					} else {
+						player.sendMessage(targetCreature.toString() + " is fully healed.");
+					}
+					
 				}
 			}
 		}
