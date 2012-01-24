@@ -3,9 +3,9 @@ package com.theSwak.BandageMe;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,6 +29,7 @@ public class BandageMe extends JavaPlugin {
 	public void onEnable() {
 		PluginDescriptionFile pdfFile = this.getDescription();
 		this.logger.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is now enabled.");
+		
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvent(Event.Type.PLAYER_INTERACT_ENTITY, this.playerListener, Event.Priority.Normal, this);
 	}
@@ -39,16 +40,16 @@ public class BandageMe extends JavaPlugin {
 
 		if(commandLabel.equalsIgnoreCase("bandageme")) {
 			if(args.length == 0) {
-				Block targetblock = player.getTargetBlock(null, 20);
-				Location location = targetblock.getLocation();
-				world.strikeLightning(location);
-				world.createExplosion(location, 2);
+				player.sendMessage(ChatColor.GOLD + "BandageMe Plugin: Give any player the ability to heal another living creature or player.");
+				Location location = player.getLocation();
+				world.playEffect(location, Effect.MOBSPAWNER_FLAMES, 1);
 			} else if (args.length == 1) {
 				if(player.getServer().getPlayer(args[0]) != null) {
 					Player targetplayer = player.getServer().getPlayer(args[0]);
 					Location location = targetplayer.getLocation();
-					world.strikeLightning(location);
-					player.sendMessage(ChatColor.GRAY + "Bandaging player " + targetplayer.getDisplayName());
+					world.playEffect(location, Effect.SMOKE, 3);
+					targetplayer.sendMessage(ChatColor.GRAY + player.getDisplayName() + " is checking your health.");
+					player.sendMessage(ChatColor.GOLD + targetplayer.getDisplayName() + " has " + Integer.toString(targetplayer.getHealth()/2) + " hearts.");
 				} else {
 					player.sendMessage(ChatColor.RED + "Error: The player is offline.");
 				}

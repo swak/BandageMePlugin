@@ -1,6 +1,6 @@
 name: BandageMe
 main: com.theSwak.BandageMe.BandageMe
-version: 0.31
+version: 0.32
 description: Gives the player the ability to use a bandage to heal other living creatures.
 commands:
     bandageme:
