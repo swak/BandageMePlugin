@@ -1,7 +1,7 @@
 name: BandageMe
 main: com.theSwak.BandageMe.BandageMe
-version: 0.33
-description: Gives the player the ability to use a bandage to heal other living creatures.
+version: 0.34
+description: Gives the player the ability to use a bandage to heal other living creatures. (compatible with CB 1.1-R3)
 commands:
     bandageme:
         description: BandageMe gives the player an ability to heal other living creatures with a bandage. To activate, Sneak and Right-click on another person or creature.
