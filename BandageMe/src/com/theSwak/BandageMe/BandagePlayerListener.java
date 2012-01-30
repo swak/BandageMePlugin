@@ -4,12 +4,13 @@ import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class BandagePlayerListener extends PlayerListener {
+public class BandagePlayerListener implements Listener {
 	public static BandageMe plugin; // reference to plug-in
 
 	private static Material bandageMaterial = Material.STRING; // material to use for bandage
@@ -20,8 +21,8 @@ public class BandagePlayerListener extends PlayerListener {
 		plugin = instance;
 	}
 
-
-	// BUKKIT EVENTS
+	
+	@EventHandler
 	public void onPlayerInteractEntity(PlayerInteractEntityEvent event) { // on player right-click interact with an entity
 		Player player = event.getPlayer(); // current player
 
