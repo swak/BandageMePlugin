@@ -1,0 +1,12 @@
+# BandageMe - Configuration
+bandage:
+  # percentage to heal a target
+  healing-chance: 80
+  # how much material to use per use
+  usage-amount: 4
+  # lowest heal amount (holder)
+  heal-low: 1
+  # highest heal amount (holder)
+  heal-high: 3
+  # bandage cool down timer in ticks (holder)
+  cool-down: 100

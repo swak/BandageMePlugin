@@ -1,5 +1,7 @@
 package com.theSwak.BandageMe;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
@@ -8,14 +10,16 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class BandageMe extends JavaPlugin {
-	public static BandageMe plugin;
+
 	public final Logger logger = Logger.getLogger("Minecraft");
+	public Map<Player, Boolean> playerCoolDowns = new HashMap<Player, Boolean>();
 
 	private final BandagePlayerListener playerListener = new BandagePlayerListener(this);
 
@@ -27,11 +31,19 @@ public class BandageMe extends JavaPlugin {
 	}
 	@Override
 	public void onEnable() {
-		PluginDescriptionFile pdfFile = this.getDescription();
-		this.logger.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is now enabled.");
+		try {
+			final FileConfiguration config = this.getConfig();
+			config.options().copyDefaults(true);
+			saveConfig();
+		} catch(Exception e1) {
+			e1.printStackTrace();
+		}
 		
 		final PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(playerListener, this);
+		
+		PluginDescriptionFile pdfFile = this.getDescription();
+		this.logger.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is now enabled.");
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
@@ -60,4 +72,6 @@ public class BandageMe extends JavaPlugin {
 
 		return false;
 	}
+	
+	// METHODS
 }
