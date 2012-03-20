@@ -47,31 +47,46 @@ public class BandageMe extends JavaPlugin {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		Player player = (Player) sender;
-		World world = player.getWorld();
-
+		Player player = null;
+		World world = null;
+		
+		if(sender instanceof Player) {
+			player = (Player) sender;
+			world = player.getWorld();
+		}
+		
 		if(commandLabel.equalsIgnoreCase("bandageme")) {
-			if(args.length == 0) {
-				player.sendMessage(ChatColor.GOLD + "BandageMe Plugin: Give any player the ability to heal another living creature or player.");
-				Location location = player.getLocation();
-				world.playEffect(location, Effect.MOBSPAWNER_FLAMES, 1);
-			} else if (args.length == 1) {
-				if(player.getServer().getPlayer(args[0]) != null) {
-					Player targetplayer = player.getServer().getPlayer(args[0]);
-					Location location = targetplayer.getLocation();
-					world.playEffect(location, Effect.SMOKE, 3);
-					targetplayer.sendMessage(ChatColor.GRAY + player.getDisplayName() + " is checking your health.");
-					player.sendMessage(ChatColor.GOLD + targetplayer.getDisplayName() + " has " + Integer.toString(targetplayer.getHealth()/2) + " hearts.");
+			if (args.length == 0) {
+				if (sender == null) {
+					logger.info("BandageMe: Give the ability to heal another living creature or player.");
 				} else {
-					player.sendMessage(ChatColor.RED + "Error: The player is offline.");
+					Location location = player.getLocation();
+					world.playEffect(location, Effect.MOBSPAWNER_FLAMES, 1);
+					player.sendMessage(ChatColor.GOLD + "BandageMe: Given the ability to heal another living creature or player.");
+				}
+				return true;
+			} else if (args.length == 1) {
+				if (sender != null) {
+					if(player.getServer().getPlayer(args[0]) != null) {
+						Player targetplayer = player.getServer().getPlayer(args[0]);
+						Location location = targetplayer.getLocation();
+						world.playEffect(location, Effect.SMOKE, 3);
+						targetplayer.sendMessage(ChatColor.GRAY + player.getDisplayName() + " is checking your health.");
+						player.sendMessage(ChatColor.GOLD + targetplayer.getDisplayName() + " has " + Integer.toString(targetplayer.getHealth()/2) + " hearts.");
+						return true;
+					} else {
+						player.sendMessage(ChatColor.RED + "Error: The player is offline.");
+					}
 				}
 			} else if (args.length > 1) {
 				player.sendMessage(ChatColor.RED + "Error: Too many arguments!");
 			}
 		}
-
 		return false;
 	}
 	
 	// METHODS
+	protected void checkPlayerHealth() {
+		
+	}
 }

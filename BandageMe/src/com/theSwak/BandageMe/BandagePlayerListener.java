@@ -6,6 +6,7 @@ import net.minecraft.server.DataWatcher;
 import net.minecraft.server.Packet40EntityMetadata;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
@@ -20,18 +21,21 @@ import org.bukkit.inventory.ItemStack;
 
 public class BandagePlayerListener implements Listener {
 	static BandageMe plugin; // reference to plug-in
-
-	private static Material bandageMaterial = Material.STRING; // material to use for bandage
+	
 	private static int healAmount = 1; // amount to heal per use
+	private Material bandageMaterial = Material.STRING; // material to use for bandage
 
 	public BandagePlayerListener(BandageMe instance) { // CONSTRUCTOR
 		plugin = instance;
 	}
-
+	
 	
 	@EventHandler
 	public void onPlayerInteractEntity(PlayerInteractEntityEvent event) { // on player right-click interact with an entity
 		final Player player = event.getPlayer(); // current player
+		if (plugin.getConfig().getString("bandage.bandage-material") != null) {
+			bandageMaterial = Material.getMaterial(plugin.getConfig().getString("bandage.bandage-material"));
+		}
 
 		if (player.isSneaking() && player.getItemInHand().getType() == bandageMaterial) { // if player is sneaking with string in hand while right-clicking on an entity
 			
@@ -49,7 +53,7 @@ public class BandagePlayerListener implements Listener {
 							if (livingTarget.getHealth() < livingTarget.getMaxHealth()) { // if target isn't fully healed
 								removeBandage(player, bandageItemUse); // remove bandage from player
 								plugin.playerCoolDowns.put(player, false);
-								player.sendMessage("trying to heal... " + livingTarget.toString());
+								player.sendMessage("*YOU BEGIN TO BANDAGE*  " + livingTarget.toString());
 								
 								plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { // delayed event that occurs 6 seconds later
 									public void run() {
@@ -58,26 +62,26 @@ public class BandagePlayerListener implements Listener {
 											if (livingTarget.getHealth() < livingTarget.getMaxHealth() - healAmount) {
 												livingTarget.setHealth(livingTarget.getHealth() + healAmount); // add heal amount
 												playPotionEffect(player, livingTarget, 0x5F82A8, 60);
-												player.sendMessage(livingTarget.toString() + " was healed for " + healAmount + " heart(s).");
+												player.sendMessage(ChatColor.GOLD + livingTarget.toString() + " was healed for " + healAmount + " heart(s)");
 											} else {
 												livingTarget.setHealth(livingTarget.getMaxHealth());
-												player.sendMessage(livingTarget.toString() + " was barely damaged.");
+												player.sendMessage(ChatColor.GRAY + livingTarget.toString() + " was barely damaged");
 											}
 										} else {
-											player.sendMessage("Bandage failed.");
+											player.sendMessage(ChatColor.DARK_RED + "Bandage failed");
 										}
 										plugin.playerCoolDowns.put(player, true); // reset cool down
 									}
 								}, 120L);
 								//
 							} else {
-								player.sendMessage(livingTarget.toString() + " is fully healed.");
+								player.sendMessage(ChatColor.DARK_GRAY + livingTarget.toString() + " is fully healed.");
 							}
 							
 						}
 					}
 				} else {
-					player.sendMessage("wait for cooldown");
+					player.sendMessage(ChatColor.DARK_GRAY + "You are still healing your target...");
 				}
 			} else {
 				plugin.playerCoolDowns.put(player, true);

@@ -1,12 +1,14 @@
-# BandageMe - Configuration
+# BandageMe Configuration (compatible with 1.1-R6)
 bandage:
+  # material item to use from bukkit's material list (default is set to string)
+  bandage-material: STRING
   # percentage to heal a target
   healing-chance: 80
   # how much material to use per use
   usage-amount: 4
-  # lowest heal amount (holder)
+  # lowest heal amount (planned)
   heal-low: 1
-  # highest heal amount (holder)
+  # highest heal amount (planned)
   heal-high: 3
-  # bandage cool down timer in ticks (holder)
+  # bandage cool down timer in ticks (planned)
   cool-down: 100
