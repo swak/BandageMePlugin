@@ -1,4 +1,4 @@
-# BandageMe Configuration (compatible with 1.1-R6)
+# BandageMe Configuration (tested with craftbukkit-1.2.5-R1.0)
 bandage:
   # material item to use from bukkit's material list (default is set to string)
   bandage-material: STRING

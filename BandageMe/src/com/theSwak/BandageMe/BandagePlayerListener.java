@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -88,6 +89,22 @@ public class BandagePlayerListener implements Listener {
 				player.sendMessage("bandage hasn't been used");
 			}
 			
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerInteract(PlayerInteractEvent event) {
+		final Player player = event.getPlayer(); // current player
+		
+		if (player.isSneaking() && event.getAction().toString() == "LEFT_CLICK_AIR") {
+			player.sendMessage("you want to heal self?");
+			if (plugin.getConfig().getString("bandage.bandage-material") != null) {
+				bandageMaterial = Material.getMaterial(plugin.getConfig().getString("bandage.bandage-material"));
+			}
+			//ItemStack bandageItemUse = new ItemStack(bandageMaterial, plugin.getConfig().getInt("bandage.usage-amount")); // create item stack to drop
+			if(player.getItemInHand().getType() == bandageMaterial && player.getItemInHand().getAmount() >= plugin.getConfig().getInt("bandage.usage-amount")) {
+				player.sendMessage("you have materials");
+			}
 		}
 	}
 
