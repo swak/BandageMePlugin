@@ -87,6 +87,12 @@ public class BandageMe extends JavaPlugin {
 	
 	// METHODS
 	protected void checkPlayerHealth() {
-		
+		// add the console command check player health, only should be available with people who have permissions/admin.
 	}
+	
+	protected void healPlayer() {
+		// pass player argument and heal function
+	}
+	
+	
 }

@@ -7,6 +7,7 @@ import net.minecraft.server.Packet40EntityMetadata;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
@@ -28,6 +29,9 @@ public class BandagePlayerListener implements Listener {
 
 	public BandagePlayerListener(BandageMe instance) { // CONSTRUCTOR
 		plugin = instance;
+		
+		// update from variables from config
+		healAmount = 2;
 	}
 	
 	
@@ -62,6 +66,7 @@ public class BandagePlayerListener implements Listener {
 										if (plugin.getConfig().getInt("bandage.healing-chance") >= perChance.nextInt(100)) {
 											if (livingTarget.getHealth() < livingTarget.getMaxHealth() - healAmount) {
 												livingTarget.setHealth(livingTarget.getHealth() + healAmount); // add heal amount
+												//playPotionEffect(player, livingTarget, DyeColor.WHITE, 120);
 												playPotionEffect(player, livingTarget, 0x5F82A8, 60);
 												player.sendMessage(ChatColor.GOLD + livingTarget.toString() + " was healed for " + healAmount + " heart(s)");
 											} else {

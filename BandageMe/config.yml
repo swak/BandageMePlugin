@@ -1,9 +1,9 @@
-# BandageMe Configuration (tested with craftbukkit-1.2.5-R1.0)
+# BandageMe Configuration
 bandage:
   # material item to use from bukkit's material list (default is set to string)
   bandage-material: STRING
   # percentage to heal a target
-  healing-chance: 80
+  healing-chance: 85
   # how much material to use per use
   usage-amount: 4
   # lowest heal amount (planned)
