@@ -2,15 +2,10 @@ package com.theSwak.BandageMe;
 
 import java.util.Random;
 
-import net.minecraft.server.DataWatcher;
-import net.minecraft.server.Packet40EntityMetadata;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
